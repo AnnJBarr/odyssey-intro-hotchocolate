@@ -7,3 +7,5 @@ __snapshots__/__mismatch__
 
 # generated schema
 schema.graphqls
+
+.idea
