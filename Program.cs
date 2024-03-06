@@ -1,4 +1,4 @@
-using Odyssey.MusicMatcher;
+using Odyssey.MusicMatcher.Types;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.Services

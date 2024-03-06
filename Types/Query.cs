@@ -1,4 +1,4 @@
-namespace Odyssey.MusicMatcher;
+namespace Odyssey.MusicMatcher.Types;
 
 public class Query
 {
