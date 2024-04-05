@@ -1,37 +1,43 @@
-namespace Odyssey.MusicMatcher.Types;
+using SpotifyWeb;
+
+namespace Odyssey.MusicMatcher;
 
 [GraphQLDescription("A curated collection of tracks designed for a specific activity or mood.")]
 public class Playlist
 {
-  private readonly string _id;
-  private string _name;
-  private string _description;
+    [GraphQLDescription("The ID for the playlist.")]
+    [ID]
+    public string Id { get; }
 
-  public Playlist(string id, string name, string description)
-  {
-    _id = id;
-    _name = name;
-    _description = description;
-  }
+    [GraphQLDescription("The name of the playlist.")]
+    public string Name { get; set; }
 
-  [GraphQLDescription("The ID for the playlist.")]
-  [ID]
-  public string Id
-  {
-    get { return _id; }
-  }
+    [GraphQLDescription("Describes the playlist, what to expect and entices the user to listen.")]
+    public string? Description { get; set; }
 
-  [GraphQLDescription("The name of the playlist.")]
-  public string Name
-  {
-    get { return _name; }
-    set { _name = value; }
-  }
+    public Playlist(string id, string name)
+    {
+        Id = id;
+        Name = name;
+    }
 
-  [GraphQLDescription("Describes the playlist, what to expect and entices the user to listen.")]
-  public string? Description
-  {
-    get { return _description; }
-    set { _description = value; }
-  }
+    public Playlist(PlaylistSimplified obj)
+    {
+        Id = obj.Id;
+        Name = obj.Name;
+        Description = obj.Description;
+    }
+    
+    public Playlist(SpotifyWeb.Playlist obj)
+    {
+        Id = obj.Id;
+        Name = obj.Name;
+        Description = obj.Description;
+        
+        Tracks = obj.Tracks.Items.Select(item => new Track(item.Track)).ToList();
+    }
+    
+    [GraphQLDescription("The playlist's tracks.")]
+    public List<Track> Tracks { get; set; }
+    
 }

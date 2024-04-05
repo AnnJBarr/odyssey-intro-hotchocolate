@@ -3,8 +3,10 @@ using SpotifyWeb;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddGraphQLServer().AddQueryType<Query>().RegisterService<SpotifyService>();
 builder.Services.AddHttpClient<SpotifyService>();
+builder.Services.AddGraphQLServer()
+    .AddQueryType<Query>()
+    .RegisterService<SpotifyService>();
 
 builder.Services
     .AddCors(options =>
