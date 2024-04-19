@@ -14,6 +14,19 @@ public class Playlist
 
     [GraphQLDescription("Describes the playlist, what to expect and entices the user to listen.")]
     public string? Description { get; set; }
+    
+    [GraphQLDescription("The playlist's tracks.")]
+    public async Task<List<Track>> Tracks(SpotifyService spotifyService) 
+    {
+        if (_tracks != null) {
+            return _tracks;
+        } else {
+            var response = await spotifyService.GetPlaylistsTracksAsync(this.Id);
+            return response.Items.Select(item => new Track(item.Track)).ToList();
+        }
+    }
+    
+    private List<Track>? _tracks;
 
     public Playlist(string id, string name)
     {
@@ -34,10 +47,6 @@ public class Playlist
         Name = obj.Name;
         Description = obj.Description;
         
-        Tracks = obj.Tracks.Items.Select(item => new Track(item.Track)).ToList();
+        _tracks = obj.Tracks.Items.Select(item => new Track(item.Track)).ToList();
     }
-    
-    [GraphQLDescription("The playlist's tracks.")]
-    public List<Track> Tracks { get; set; }
-    
 }
